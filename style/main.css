@@ -1,0 +1,46 @@
+html, body {
+  background: #faf8ef;
+  color: #776e65;
+  font-family: Arial;
+}
+
+.container {
+	position:absolute;
+    width:400px;
+    height:600px;
+    top:10%;
+    left:25%;
+}
+
+.title-container {
+	position:relative;
+	height: 80px;
+	width: 200px;
+}
+
+canvas {
+	position:absolute;
+    width:400px;
+    height:400px;
+	margin-left: -60px;
+}
+ 
+.title {
+  font-size: 80px;
+  font-weight: bold;
+  display: block;
+  margin-left: 40px;
+  float: left; 
+}
+ 
+.subtitle {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+
+
+
