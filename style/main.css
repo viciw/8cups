@@ -20,9 +20,7 @@ html, body {
 
 canvas {
 	position:absolute;
-    width:400px;
-    height:400px;
-	margin-left: -60px;
+	margin-left: -50px;
 }
  
 .title {

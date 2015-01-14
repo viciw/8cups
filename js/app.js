@@ -30,12 +30,12 @@ var canvasRender = {
 		context.save();
 		context.beginPath();
 		context.moveTo(10, 10);
-		context.lineTo(30, 125);
-		context.lineTo(110, 125);
+		context.lineTo(30, 250);
+		context.lineTo(110, 250);
 		context.lineTo(130, 10);
 		context.lineTo(120, 10);
-		context.lineTo(100, 110);
-		context.quadraticCurveTo(70, 120, 40, 110);
+		context.lineTo(100, 220);
+		context.quadraticCurveTo(70, 240, 40, 220);
 		context.lineTo(20, 10);
 		context.lineTo(10, 10);
 		context.shadowColor = 'rgba(0,100,100,0.2)';   
@@ -54,16 +54,29 @@ var canvasRender = {
 	drawWater: function(cups){
 		var context = this.canvas.getContext("2d");
 		context.beginPath();
-		context.moveTo(100, 110);
-		context.quadraticCurveTo(70, 120, 40, 110);		
-		context.lineTo(40 - 2.5 * cups, 110 - 12.5 * cups); 
-		context.lineTo(100 + 2.5 * cups, 110 - 12.5 * cups); 
-		context.lineTo(100, 110); 
-		var grd = context.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
-		grd.addColorStop(0, '#8ED6FF');   
-		grd.addColorStop(1, '#004CB3');
+		if (cups == 1) {
+			context.moveTo(100, 220);
+			context.quadraticCurveTo(70, 240, 40, 220);	
+			context.lineTo(100, 220); 
+		} else {
+			var x1 = 40 - 2.7 * (cups - 1);
+			var y1 = 220 - 28 * (cups - 1);
+			var x2 = 100 + 2.7 * (cups - 1);
+			var y2 = y1;
+			var x3 = 100 + 2.7 * (cups - 2);
+			var y3 = 220 - 28 * (cups - 2);
+			var x4 = 40 - 2.7 * (cups - 2);
+			var y4 = y3;
+			context.moveTo(x1, y1);
+			context.lineTo(x2, y2);
+			context.lineTo(x3, y3);
+			context.lineTo(x4, y4);		
+		}
+		var grd = context.createRadialGradient(70, 240, 10, 70, 240, 240);
+		grd.addColorStop(0, '#004CB3');   
+		grd.addColorStop(1, '#8ED6FF');
 		context.fillStyle = grd;
-		context.fill();;
+		context.fill();
 		context.closePath();		
 	}
 }
@@ -79,7 +92,9 @@ function init() {
 	var cups = localStorageManager.getCups();
 	htmlActuator.updateCupsContainer(cups);
 	canvasRender.drawContainer();
-	if (cups > 0) canvasRender.drawWater(cups);
+	for (var i = 1; i <= cups; i++) {
+		canvasRender.drawWater(i);
+	}
 	if (cups < 9) canvasRender.canvas.addEventListener('click', drink); 
 }
 
