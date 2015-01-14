@@ -81,6 +81,26 @@ var canvasRender = {
 	}
 }
 
+var notificationManager = {
+	timer: null,
+	start: function() {
+		if (window.Notification) {
+			if(Notification.permission != 'granted'){
+				Notification.requestPermission();
+			}			
+			this.timer = setInterval(this.notify, 1000 * 60 * 60 * 2);
+		}	
+	},
+	notify: function() {
+		var notification = new Notification('8 Cups a Day', { 
+			body: 'How much water did you drink today?'
+		});	
+	},
+	stop: function() {
+		clearInterval(this.timer);
+	}
+}
+
 function init() {
 	var prevDate = localStorageManager.getDate();
 	var date = new Date();
@@ -95,19 +115,22 @@ function init() {
 	for (var i = 1; i <= cups; i++) {
 		canvasRender.drawWater(i);
 	}
-	if (cups < 9) canvasRender.canvas.addEventListener('click', drink); 
+	if (cups < 9) {
+		notificationManager.start();
+		canvasRender.canvas.addEventListener('click', drink); 
+	}
 }
 
 function drink(){
 	var cups = localStorageManager.getCups();
 	cups++;
-	if (cups < 9) {
-		htmlActuator.updateCupsContainer(cups);
-		canvasRender.drawWater(cups);
-		localStorageManager.setCups(cups);
-	} else {
-		canvasRender.canvas.removeEventListener('click');
+	if (cups == 8) {	
+		notificationManager.stop();
+		canvasRender.canvas.removeEventListener('click', drink);
 	}
+	htmlActuator.updateCupsContainer(cups);
+	canvasRender.drawWater(cups);
+	localStorageManager.setCups(cups);
 }
 
 window.addEventListener('load', init);
