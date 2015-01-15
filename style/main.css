@@ -2,6 +2,8 @@ html, body {
   background: #faf8ef;
   color: #776e65;
   font-family: Arial;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 .noselect {
     -webkit-touch-callout: none;
