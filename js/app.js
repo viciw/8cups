@@ -94,7 +94,7 @@ var notificationManager = {
 	notify: function() {
 		var notification = new Notification('8 Cups a Day', { 
 			body: 'How much water did you drink today?',
-			icon: 'meta/icon.png'
+			icon: 'res/icon.png'
 		});	
 	},
 	stop: function() {
