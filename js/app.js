@@ -103,19 +103,28 @@ var notificationManager = {
 }
 
 function init() {
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth();
+	var date = now.getDate();
+	var midnight = new Date(year, month, date + 1, 0, 0, 0);
+	var msTillMidnight = midnight.getTime() - now.getTime();
+	setTimeout('document.location.reload()', msTillMidnight);
+	
+	var today = [year, month + 1, date].join('-');
 	var prevDate = localStorageManager.getDate();
-	var date = new Date();
-	var today = [date.getFullYear(), date.getMonth()+1, date.getDate()].join('-');
 	if ( !prevDate || prevDate != today) {
 		localStorageManager.setCups(0);
 		localStorageManager.setDate(today);
 	}
+
 	var cups = localStorageManager.getCups();
 	htmlActuator.updateCupsContainer(cups);
 	canvasRender.drawContainer();
 	for (var i = 1; i <= cups; i++) {
 		canvasRender.drawWater(i);
 	}
+
 	if (cups < 8) {
 		notificationManager.start();
 		canvasRender.canvas.addEventListener('click', drink);
